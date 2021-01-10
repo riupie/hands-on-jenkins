@@ -17,11 +17,12 @@ pipeline {
 			steps { runUnittests() }
 		}
 
-        stage("Build and Push") {
+        stage("Build") {
             steps { buildApp() }
-	    steps { pushApp() }
 		}
-
+        stage("Push Image") {
+	    steps { pushApp() }
+}
         stage("Deploy - Dev") {
             steps { deploy('dev') }
 		}
