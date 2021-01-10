@@ -17,8 +17,9 @@ pipeline {
 			steps { runUnittests() }
 		}
 
-        stage("Build") {
+        stage("Build and Push") {
             steps { buildApp() }
+	    steps { pushApp() }
 		}
 
         stage("Deploy - Dev") {
