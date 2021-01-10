@@ -12,7 +12,7 @@ pipeline {
     		registryCredential = 'docker-hub-credentials'
 	}
 
-e   stages {
+   stages {
 
 		stage("Test - Unit tests") {
 			steps { runUnittests() }
