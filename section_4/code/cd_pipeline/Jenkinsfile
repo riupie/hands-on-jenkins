@@ -9,9 +9,10 @@ pipeline {
 
 	environment {
 		PYTHONPATH = "${WORKSPACE}/section_4/code/cd_pipeline"
+    		registryCredential = 'docker-hub-credentials'
 	}
 
-    stages {
+e   stages {
 
 		stage("Test - Unit tests") {
 			steps { runUnittests() }
@@ -56,12 +57,10 @@ pipeline {
 // steps
 def buildApp() {
 	dir ('section_4/code/cd_pipeline' ) {
-        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
 		def appImage = docker.build("riupie/myapp:${BUILD_NUMBER}")
                 appImage.push("${env.BUILD_NUMBER}")
                 appImage.push("latest")
     		}
-	}
 }
 
 def deploy(environment) {
