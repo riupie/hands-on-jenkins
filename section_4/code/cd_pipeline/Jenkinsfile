@@ -9,7 +9,7 @@ pipeline {
 
 	environment {
 		PYTHONPATH = "${WORKSPACE}/section_4/code/cd_pipeline"
-    		registryCredential = 'docker-hub-credentials'
+    		registryCredential = 'docker-hub'
 	}
 
    stages {
