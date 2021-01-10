@@ -22,6 +22,7 @@ pipeline {
             steps { buildApp() }
 		}
 
+
         stage("Deploy - Dev") {
             steps { deploy('dev') }
 		}
@@ -58,9 +59,11 @@ pipeline {
 def buildApp() {
 	dir ('section_4/code/cd_pipeline' ) {
 		def appImage = docker.build("riupie/myapp:${BUILD_NUMBER}")
+    		}
+        docker.withRegistry( '', registryCredential ) {
                 appImage.push("${env.BUILD_NUMBER}")
                 appImage.push("latest")
-    		}
+		}
 }
 
 def deploy(environment) {
