@@ -17,12 +17,10 @@ pipeline {
 			steps { runUnittests() }
 		}
 
-        stage("Build") {
+        stage("Build and Push") {
             steps { buildApp() }
 		}
-        stage("Push Image") {
-	    steps { pushApp() }
-}
+
         stage("Deploy - Dev") {
             steps { deploy('dev') }
 		}
@@ -60,15 +58,12 @@ def buildApp() {
 	dir ('section_4/code/cd_pipeline' ) {
 		def appImage = docker.build("riupie/myapp:${BUILD_NUMBER}")
 	}
-}
-
-def pushApp() {
-	docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-        	appImage.push("${env.BUILD_NUMBER}")
-        	appImage.push("latest")
+        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                appImage.push("${env.BUILD_NUMBER}")
+                appImage.push("latest")
     }
-
 }
+
 def deploy(environment) {
 
 	def containerName = ''
